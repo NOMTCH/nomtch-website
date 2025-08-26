@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NOMTCH - Innovating Your Digital World</title>
+    <link rel="icon" type="image/png" href="icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+      :root {
+        --dark: #0d0f1a;
+        --cyan: #00f0ff;
+        --purple: #c400ff;
+        --white: #ffffff;
+        --gray: #8a8fa3;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Rajdhani', sans-serif;
+        background-color: var(--dark);
+        color: var(--white);
+        overflow-x: hidden;
+        line-height: 1.6;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5 {
+        font-family: 'Orbitron', sans-serif;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header & Navigation */
+      header {
+        padding: 20px 0;
+        position: fixed;
+        width: 100%;
+        z-index: 1000;
+        transition: background 0.3s ease;
+      }
+
+      header.scrolled {
+        background: rgba(13, 15, 26, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        display: inline-block;
+      }
+
+      .logo-img {
+        height: 50px; /* atur sesuai kebutuhan */
+        width: auto;
+        display: block;
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+      }
+
+      .nav-links li {
+        margin-left: 30px;
+      }
+
+      .nav-links a {
+        color: var(--white);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 16px;
+        transition: color 0.3s ease;
+        position: relative;
+        text-transform: uppercase;
+      }
+
+      .nav-links a:hover {
+        color: var(--cyan);
+      }
+
+      .nav-links a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -5px;
+        left: 0;
+        background: linear-gradient(90deg, var(--cyan), var(--purple));
+        transition: width 0.3s ease;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      .mobile-menu-btn {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--white);
+        font-size: 24px;
+        cursor: pointer;
+      }
+
+      /* WhatsApp Floating Button */
+      .whatsapp-float {
+        position: fixed;
+        width: 60px;
+        height: 60px;
+        bottom: 20px;
+        right: 20px;
+        background-color: var(--cyan);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+        z-index: 999;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .whatsapp-float img {
+        width: 35px;
+        height: 35px;
+      }
+
+      .whatsapp-float:hover {
+        transform: scale(1.1);
+        box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.4);
+      }
+
+      /* Hero Section */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding: 100px 0 50px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        align-items: center;
+        gap: 40px;
+      }
+
+      .hero-content {
+        max-width: 650px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .hero-title {
+        font-size: 3.5rem;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        text-transform: uppercase; /* semua huruf gede */
+      }
+
+      .hero-title .word {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.6s forwards;
+      }
+
+      .hero-title .word:nth-child(1) {
+        animation-delay: 0.2s;
+      }
+      .hero-title .word:nth-child(2) {
+        animation-delay: 0.4s;
+      }
+      .hero-title .word:nth-child(3) {
+        animation-delay: 0.6s;
+      }
+      .hero-title .word:nth-child(4) {
+        animation-delay: 0.8s;
+      }
+
+      .hero-title .gradient {
+        background: linear-gradient(90deg, var(--cyan), var(--purple));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .hero-desc {
+        font-size: 1.2rem;
+        color: var(--gray);
+        margin-bottom: 2.5rem;
+        max-width: 90%;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.6s forwards 1s;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 12px 30px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: none;
+        outline: none;
+        position: relative;
+        z-index: 3;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.6s forwards 1.4s;
+      }
+
+      .btn-primary {
+        background: linear-gradient(90deg, var(--cyan), var(--purple));
+        color: var(--dark);
+        box-shadow: 0 4px 20px rgba(196, 0, 255, 0.3);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(196, 0, 255, 0.4);
+      }
+
+      .hero-image {
+        display: flex;
+        justify-content: flex-end; /* dorong ke kanan */
+        align-items: center;
+        position: relative;
+      }
+
+      .hero-image img {
+        max-width: 100%;
+        width: 400px; /* atur ukuran sesuai selera */
+        animation: float 4s ease-in-out infinite;
+        margin-right: -80px; /* tarik lebih kanan, adjust angka ini */
+        margin-bottom: 0px;
+      }
+
+      /* Animations */
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+
+      /* Services Section */
+      .services {
+        padding: 100px 0;
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 60px;
+        font-size: 2.5rem;
+      }
+
+      .section-title span {
+        color: var(--cyan);
+      }
+
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+      }
+
+      .service-card {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        padding: 30px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .service-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          45deg,
+          rgba(0, 240, 255, 0.1),
+          rgba(196, 0, 255, 0.1)
+        );
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: -1;
+      }
+
+      .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .service-card:hover::before {
+        opacity: 1;
+      }
+
+      .service-icon {
+        font-size: 40px;
+        margin-bottom: 20px;
+        background: linear-gradient(90deg, var(--cyan), var(--purple));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .service-title {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+      }
+
+      .service-desc {
+        color: var(--gray);
+        margin-bottom: 20px;
+      }
+
+      .service-link {
+        color: var(--cyan);
+        text-decoration: none;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .service-link span {
+        margin-left: 5px;
+        transition: transform 0.3s ease;
+      }
+
+      .service-link:hover span {
+        transform: translateX(5px);
+      }
+
+      /* About Section */
+      .about {
+        padding: 100px 0;
+        background: rgba(0, 240, 255, 0.03);
+      }
+
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 50px;
+        align-items: center;
+      }
+
+      .about-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+      }
+
+      .about-content h2 span {
+        color: var(--cyan);
+      }
+
+      .about-desc {
+        color: var(--gray);
+        margin-bottom: 30px;
+        font-size: 1.1rem;
+      }
+
+      .about-features {
+        list-style: none;
+      }
+
+      .about-features li {
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+      }
+
+      .about-features li::before {
+        content: '✓';
+        color: var(--cyan);
+        font-weight: bold;
+        margin-right: 10px;
+        background: rgba(0, 240, 255, 0.1);
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .about-image {
+        position: relative;
+      }
+
+      .about-img {
+        width: 100%;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Contact Section */
+      .contact {
+        padding: 100px 0;
+      }
+
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 50px;
+      }
+
+      .contact-info {
+        padding-right: 30px;
+      }
+
+      .contact-title {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+      }
+
+      .contact-title span {
+        color: var(--cyan);
+      }
+
+      .contact-desc {
+        color: var(--gray);
+        margin-bottom: 30px;
+        font-size: 1.1rem;
+      }
+
+      .contact-details {
+        list-style: none;
+      }
+
+      .contact-details li {
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+      }
+
+      .contact-details li i {
+        color: var(--cyan);
+        font-size: 20px;
+        margin-right: 15px;
+        width: 24px;
+      }
+
+      .contact-form {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 30px;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+      }
+
+      .form-input,
+      .form-textarea {
+        width: 100%;
+        padding: 12px 15px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--white);
+        font-family: inherit;
+        transition: border 0.3s ease;
+      }
+
+      .form-input:focus,
+      .form-textarea:focus {
+        outline: none;
+        border-color: var(--cyan);
+      }
+
+      .form-textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      .submit-btn {
+        background: linear-gradient(90deg, var(--cyan), var(--purple));
+        color: var(--dark);
+        padding: 12px 30px;
+        border: none;
+        border-radius: 30px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-block;
+      }
+
+      .submit-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(196, 0, 255, 0.4);
+      }
+
+      .form-input,
+      .form-textarea,
+      .form-input option {
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.08
+        ); /* transparan dikit biar nyatu */
+        color: #fff; /* teks putih */
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        padding: 10px;
+        font-size: 1rem;
+      }
+
+      .form-input:focus,
+      .form-textarea:focus {
+        outline: none;
+        border-color: var(--cyan);
+        box-shadow: 0 0 0 2px rgba(0, 240, 255, 0.3);
+      }
+
+      /* option dropdown pas kebuka */
+      .form-input option {
+        background: #1f2432; /* warna gelap biar kebaca */
+        color: #fff;
+      }
+
+      /* Footer */
+      footer {
+        background: rgba(0, 0, 0, 0.2);
+        padding: 50px 0 20px;
+      }
+
+      .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      .footer-col h3 {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+        position: relative;
+        padding-bottom: 10px;
+      }
+
+      .footer-col h3::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 30px;
+        height: 2px;
+        background: linear-gradient(90deg, var(--cyan), var(--purple));
+      }
+
+      .footer-links {
+        list-style: none;
+      }
+
+      .footer-links li {
+        margin-bottom: 10px;
+      }
+
+      .footer-links a {
+        color: var(--gray);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        color: var(--cyan);
+      }
+
+      .social-links {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .social-links a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--white);
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .social-links a:hover {
+        background: linear-gradient(90deg, var(--cyan), var(--purple));
+        transform: translateY(-3px);
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        color: var(--gray);
+        font-size: 0.9rem;
+      }
+
+      /* Stars Background */
+      .stars {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -2;
+        pointer-events: none;
+      }
+
+      .star {
+        position: absolute;
+        background: var(--white);
+        border-radius: 50%;
+        animation: twinkle linear infinite;
+      }
+
+      @keyframes twinkle {
+        0%,
+        100% {
+          opacity: 0.2;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      /* Responsive Styles */
+      @media (max-width: 992px) {
+        .about-grid,
+        .contact-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .footer-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .hero-title {
+          font-size: 2.8rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+          position: absolute;
+          top: 80px;
+          left: 0;
+          width: 100%;
+          background: rgba(13, 15, 26, 0.95);
+          flex-direction: column;
+          padding: 20px;
+          backdrop-filter: blur(10px);
+        }
+
+        .nav-links.active {
+          display: flex;
+        }
+
+        .nav-links li {
+          margin: 15px 0;
+        }
+
+        .mobile-menu-btn {
+          display: block;
+        }
+
+        .hero-title {
+          font-size: 2.3rem;
+        }
+
+        .hero-desc {
+          font-size: 1rem;
+        }
+
+        .section-title {
+          font-size: 2rem;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .footer-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-title {
+          font-size: 2rem;
+        }
+      }
+    </style>
+  </head>
+
+  <!-- Floating WhatsApp -->
+  <a href="https://wa.me/6282130704794" class="whatsapp-float" target="_blank">
+    <img
+      src="https://cdn-icons-png.flaticon.com/512/733/733585.png"
+      alt="WhatsApp"
+    />
+  </a>
+
+  <body>
+    <!-- Stars Background -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Header -->
+    <header id="header">
+      <div class="container header-container">
+        <a href="#" class="logo">
+          <img src="logo.png" alt="NOMTCH Logo" class="logo-img" />
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#services">Layanan</a></li>
+          <li><a href="#about">Tentang</a></li>
+          <li><a href="#contact">Kontak</a></li>
+        </ul>
+        <button class="mobile-menu-btn">☰</button>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="hero-title">
+            <span class="word">Innovating</span>
+            <span class="word">Your</span>
+            <span class="word gradient">Digital</span>
+            <span class="word">World</span>
+          </h1>
+          <p class="hero-desc">
+            NOMTCH menyediakan solusi digital kreatif untuk bisnis Anda. Dari
+            desain grafis hingga instalasi CCTV, kami hadir untuk membantu
+            transformasi digital Anda.
+          </p>
+          <a href="#services" class="btn btn-primary">Jelajahi Layanan</a>
+        </div>
+
+        <!-- Astronaut Image -->
+        <div class="hero-image">
+          <img src="robot.png" alt="Astronaut" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+      <div class="container">
+        <h2 class="section-title">Layanan <span>Kami</span></h2>
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="service-icon">📄</div>
+            <h3 class="service-title">PDF Interaktif</h3>
+            <p class="service-desc">
+              Buat PDF interaktif yang menarik untuk presentasi, laporan, atau
+              materi pemasaran Anda.
+            </p>
+            <a href="#contact" class="service-link"
+              >Pesan Sekarang <span>→</span></a
+            >
+          </div>
+          <div class="service-card">
+            <div class="service-icon">🎨</div>
+            <h3 class="service-title">Desain Logo</h3>
+            <p class="service-desc">
+              Logo profesional yang mencerminkan identitas merek Anda dan
+              membuat bisnis Anda menonjol.
+            </p>
+            <a href="#contact" class="service-link"
+              >Pesan Sekarang <span>→</span></a
+            >
+          </div>
+          <div class="service-card">
+            <div class="service-icon">📋</div>
+            <h3 class="service-title">Desain Brochure</h3>
+            <p class="service-desc">
+              Brochure yang elegan dan informatif untuk mempromosikan produk dan
+              layanan Anda.
+            </p>
+            <a href="#contact" class="service-link"
+              >Pesan Sekarang <span>→</span></a
+            >
+          </div>
+          <div class="service-card">
+            <div class="service-icon">📹</div>
+            <h3 class="service-title">Pemasangan CCTV</h3>
+            <p class="service-desc">
+              Jasa pemasangan CCTV profesional untuk keamanan rumah dan bisnis
+              Anda.
+            </p>
+            <a href="#contact" class="service-link"
+              >Pesan Sekarang <span>→</span></a
+            >
+          </div>
+          <div class="service-card">
+            <div class="service-icon">💻</div>
+            <h3 class="service-title">Website Development</h3>
+            <p class="service-desc">
+              Website responsif dan modern untuk meningkatkan kehadiran digital
+              bisnis Anda.
+            </p>
+            <a href="#contact" class="service-link"
+              >Pesan Sekarang <span>→</span></a
+            >
+          </div>
+          <div class="service-card">
+            <div class="service-icon">📱</div>
+            <h3 class="service-title">UI/UX Design</h3>
+            <p class="service-desc">
+              Desain antarmuka pengguna yang intuitif dan menarik untuk aplikasi
+              dan website.
+            </p>
+            <a href="#contact" class="service-link"
+              >Pesan Sekarang <span>→</span></a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-content">
+            <h2>Mengapa Memilih <span>NOMTCH?</span></h2>
+            <p class="about-desc">
+              Kami adalah tim kreatif yang berdedikasi untuk memberikan solusi
+              digital terbaik dengan pendekatan inovatif dan profesional.
+            </p>
+            <ul class="about-features">
+              <li>Desain berkualitas tinggi dan sesuai kebutuhan</li>
+              <li>Tim profesional berpengalaman</li>
+              <li>Harga kompetitif dan transparan</li>
+              <li>Pengerjaan tepat waktu</li>
+              <li>Dukungan purna jual yang responsif</li>
+            </ul>
+            <a href="#contact" class="btn btn-primary">Hubungi Kami</a>
+          </div>
+          <div class="about-image">
+            <img
+              src="https://images.unsplash.com/photo-1533750349088-cd871a92f312?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+              alt="NOMTCH Team"
+              class="about-img"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+      <div class="container">
+        <div class="contact-grid">
+          <div class="contact-info">
+            <h2 class="contact-title">Hubungi <span>Kami</span></h2>
+            <p class="contact-desc">
+              Siap untuk mengubah ide Anda menjadi kenyataan? Hubungi kami
+              sekarang dan dapatkan penawaran terbaik untuk proyek Anda.
+            </p>
+            <ul class="contact-details">
+              <li><i>📧</i> nomstudiodesign@gmail.com</li>
+              <li><i>📱</i> +62 821 3070 4794</li>
+              <li><i>📍</i> Eart of ALLAH SWT</li>
+            </ul>
+          </div>
+          <div class="contact-form">
+            <form id="contactForm">
+              <div class="form-group">
+                <label for="name" class="form-label">Nama Lengkap</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  class="form-input"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="email" class="form-label">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="form-input"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="service" class="form-label"
+                  >Layanan yang Diminati</label
+                >
+                <select id="service" name="service" class="form-input" required>
+                  <option value="">Pilih Layanan</option>
+                  <option value="pdf">PDF Interaktif</option>
+                  <option value="logo">Desain Logo</option>
+                  <option value="brochure">Desain Brochure</option>
+                  <option value="cctv">Pemasangan CCTV</option>
+                  <option value="website">Website Development</option>
+                  <option value="uiux">UI/UX Design</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="message" class="form-label">Pesan</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  class="form-textarea"
+                  required
+                ></textarea>
+              </div>
+
+              <button type="submit" class="submit-btn">Kirim Pesan</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-col">
+            <h3>NOMTCH</h3>
+            <p>
+              Menyediakan solusi digital kreatif untuk membantu bisnis Anda
+              tumbuh di era digital.
+            </p>
+            <div class="social-links">
+              <a href="#"><i>📱</i></a>
+              <a href="#"><i>💬</i></a>
+              <a href="#"><i>📸</i></a>
+              <a href="#"><i>🔗</i></a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h3>Layanan</h3>
+            <ul class="footer-links">
+              <li><a href="#">PDF Interaktif</a></li>
+              <li><a href="#">Desain Logo</a></li>
+              <li><a href="#">Desain Brochure</a></li>
+              <li><a href="#">Pemasangan CCTV</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h3>Perusahaan</h3>
+            <ul class="footer-links">
+              <li><a href="#">Tentang Kami</a></li>
+              <li><a href="#">Portfolio</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Karir</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h3>Dukungan</h3>
+            <ul class="footer-links">
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">Syarat & Ketentuan</a></li>
+              <li><a href="#">Kebijakan Privasi</a></li>
+              <li><a href="#">Bantuan</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>
+            &copy; 2025 NOMTCH - Innovating Your Digital World. All rights
+            reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+    <script>
+      // Create stars background
+      function createStars() {
+        const stars = document.getElementById('stars')
+        const starsCount = 150
+
+        for (let i = 0; i < starsCount; i++) {
+          const star = document.createElement('div')
+          star.classList.add('star')
+
+          const size = Math.random() * 3
+          star.style.width = `${size}px`
+          star.style.height = `${size}px`
+
+          star.style.left = `${Math.random() * 100}%`
+          star.style.top = `${Math.random() * 100}%`
+
+          star.style.animationDuration = `${Math.random() * 3 + 2}s`
+          star.style.animationDelay = `${Math.random() * 2}s`
+
+          stars.appendChild(star)
+        }
+      }
+
+      // Header scroll effect
+      function handleHeaderScroll() {
+        const header = document.getElementById('header')
+        if (window.scrollY > 50) {
+          header.classList.add('scrolled')
+        } else {
+          header.classList.remove('scrolled')
+        }
+      }
+
+      // GSAP Animations
+      function initAnimations() {
+        // Register ScrollTrigger plugin
+        gsap.registerPlugin(ScrollTrigger)
+
+        // Hero section animation
+        gsap.from('.hero-title', {
+          duration: 1,
+          y: 50,
+          opacity: 0,
+          ease: 'power3.out'
+        })
+
+        gsap.from('.hero-desc', {
+          duration: 1,
+          y: 30,
+          opacity: 0,
+          delay: 0.3,
+          ease: 'power3.out'
+        })
+
+        gsap.from('.btn-primary', {
+          duration: 1,
+          y: 30,
+          opacity: 0,
+          delay: 0.6,
+          ease: 'power3.out'
+        })
+
+        // Services animation
+        gsap.from('.service-card', {
+          scrollTrigger: {
+            trigger: '.services',
+            start: 'top 80%'
+          },
+          duration: 0.8,
+          y: 50,
+          opacity: 0,
+          stagger: 0.2,
+          ease: 'power3.out'
+        })
+
+        // About section animation
+        gsap.from('.about-content', {
+          scrollTrigger: {
+            trigger: '.about',
+            start: 'top 80%'
+          },
+          duration: 1,
+          x: -50,
+          opacity: 0,
+          ease: 'power3.out'
+        })
+
+        gsap.from('.about-img', {
+          scrollTrigger: {
+            trigger: '.about',
+            start: 'top 80%'
+          },
+          duration: 1,
+          x: 50,
+          opacity: 0,
+          ease: 'power3.out'
+        })
+
+        // Contact section animation
+        gsap.from('.contact-info', {
+          scrollTrigger: {
+            trigger: '.contact',
+            start: 'top 80%'
+          },
+          duration: 1,
+          x: -50,
+          opacity: 0,
+          ease: 'power3.out'
+        })
+
+        gsap.from('.contact-form', {
+          scrollTrigger: {
+            trigger: '.contact',
+            start: 'top 80%'
+          },
+          duration: 1,
+          x: 50,
+          opacity: 0,
+          ease: 'power3.out'
+        })
+      }
+
+      // EMAILJS
+
+      ;(function () {
+        emailjs.init('jaUDXIFQC9A7j6F-B') // public key lu
+      })()
+
+      document
+        .getElementById('contactForm')
+        .addEventListener('submit', function (e) {
+          e.preventDefault()
+
+          const form = e.target
+          const templateParams = {
+            name: form.name.value,
+            email: form.email.value,
+            service: form.service.value,
+            message: form.message.value
+          }
+
+          // 1. Kirim pesan utama (masuk ke inbox lu / admin)
+          emailjs
+            .send('service_rhet2fp', 'template_3m1vei7', templateParams)
+            .then(
+              function () {
+                console.log('Pesan utama terkirim ke admin ✅')
+
+                // 2. Kirim auto-reply ke user
+                emailjs
+                  .send('service_rhet2fp', 'template_etfncgn', templateParams)
+                  .then(
+                    function () {
+                      alert('Pesan berhasil dikirim! Silakan cek email kamu 🚀')
+                      form.reset()
+                    },
+                    function (error) {
+                      console.error('Gagal kirim auto-reply:', error)
+                    }
+                  )
+              },
+              function (error) {
+                alert('Gagal kirim pesan: ' + JSON.stringify(error))
+              }
+            )
+        })
+
+      // Mobile menu toggle
+      function initMobileMenu() {
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn')
+        const navLinks = document.querySelector('.nav-links')
+
+        mobileMenuBtn.addEventListener('click', function () {
+          navLinks.classList.toggle('active')
+        })
+
+        // Close menu when clicking on a link
+        const navItems = document.querySelectorAll('.nav-links a')
+        navItems.forEach((item) => {
+          item.addEventListener('click', function () {
+            navLinks.classList.remove('active')
+          })
+        })
+      }
+
+      // Smooth scrolling for navigation links
+      function initSmoothScrolling() {
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+          anchor.addEventListener('click', function (e) {
+            e.preventDefault()
+
+            const targetId = this.getAttribute('href')
+            if (targetId === '#') return
+
+            const targetElement = document.querySelector(targetId)
+            if (targetElement) {
+              window.scrollTo({
+                top: targetElement.offsetTop - 80,
+                behavior: 'smooth'
+              })
+            }
+          })
+        })
+      }
+
+      // Initialize everything when DOM is loaded
+      document.addEventListener('DOMContentLoaded', function () {
+        createStars()
+        window.addEventListener('scroll', handleHeaderScroll)
+        initAnimations()
+        handleFormSubmit()
+        initMobileMenu()
+        initSmoothScrolling()
+      })
+    </script>
+  </body>
+</html>

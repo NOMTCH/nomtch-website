@@ -1,899 +1,229 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NOMTCH - Innovating Your Digital World</title>
+    <meta
+      name="description"
+      content="NOMTCH - Solusi digital kreatif untuk bisnis Anda. Web Design, Graphic Design, Branding, dan lainnya."
+    />
+
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="icon.png" />
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
-    <style>
-      :root {
-        --dark: #0d0f1a;
-        --cyan: #00f0ff;
-        --purple: #c400ff;
-        --white: #ffffff;
-        --gray: #8a8fa3;
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: 'Rajdhani', sans-serif;
-        background-color: var(--dark);
-        color: var(--white);
-        overflow-x: hidden;
-        line-height: 1.6;
-      }
-
-      h1,
-      h2,
-      h3,
-      h4,
-      h5 {
-        font-family: 'Orbitron', sans-serif;
-        font-weight: 700;
-        margin-bottom: 1rem;
-      }
-
-      .container {
-        width: 90%;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
-      }
-
-      /* Header & Navigation */
-      header {
-        padding: 20px 0;
-        position: fixed;
-        width: 100%;
-        z-index: 1000;
-        transition: background 0.3s ease;
-      }
-
-      header.scrolled {
-        background: rgba(13, 15, 26, 0.95);
-        backdrop-filter: blur(10px);
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-      }
-
-      .header-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .logo {
-        display: inline-block;
-      }
-
-      .logo-img {
-        height: 50px; /* atur sesuai kebutuhan */
-        width: auto;
-        display: block;
-      }
-
-      .nav-links {
-        display: flex;
-        list-style: none;
-      }
-
-      .nav-links li {
-        margin-left: 30px;
-      }
-
-      .nav-links a {
-        color: var(--white);
-        text-decoration: none;
-        font-weight: 500;
-        font-size: 16px;
-        transition: color 0.3s ease;
-        position: relative;
-        text-transform: uppercase;
-      }
-
-      .nav-links a:hover {
-        color: var(--cyan);
-      }
-
-      .nav-links a::after {
-        content: '';
-        position: absolute;
-        width: 0;
-        height: 2px;
-        bottom: -5px;
-        left: 0;
-        background: linear-gradient(90deg, var(--cyan), var(--purple));
-        transition: width 0.3s ease;
-      }
-
-      .nav-links a:hover::after {
-        width: 100%;
-      }
-
-      .mobile-menu-btn {
-        display: none;
-        background: none;
-        border: none;
-        color: var(--white);
-        font-size: 24px;
-        cursor: pointer;
-      }
-
-      /* WhatsApp Floating Button */
-      .whatsapp-float {
-        position: fixed;
-        width: 60px;
-        height: 60px;
-        bottom: 20px;
-        right: 20px;
-        background-color: var(--cyan);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
-        z-index: 999;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-
-      .whatsapp-float img {
-        width: 35px;
-        height: 35px;
-      }
-
-      .whatsapp-float:hover {
-        transform: scale(1.1);
-        box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.4);
-      }
-
-      /* Hero Section */
-      .hero {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        padding: 100px 0 50px;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .hero-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        align-items: center;
-        gap: 40px;
-      }
-
-      .hero-content {
-        max-width: 650px;
-        position: relative;
-        z-index: 2;
-      }
-
-      .hero-title {
-        font-size: 3.5rem;
-        margin-bottom: 1.5rem;
-        line-height: 1.2;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        text-transform: uppercase; /* semua huruf gede */
-      }
-
-      .hero-title .word {
-        opacity: 0;
-        transform: translateY(30px);
-        animation: fadeInUp 0.6s forwards;
-      }
-
-      .hero-title .word:nth-child(1) {
-        animation-delay: 0.2s;
-      }
-      .hero-title .word:nth-child(2) {
-        animation-delay: 0.4s;
-      }
-      .hero-title .word:nth-child(3) {
-        animation-delay: 0.6s;
-      }
-      .hero-title .word:nth-child(4) {
-        animation-delay: 0.8s;
-      }
-
-      .hero-title .gradient {
-        background: linear-gradient(90deg, var(--cyan), var(--purple));
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-      }
-
-      .hero-desc {
-        font-size: 1.2rem;
-        color: var(--gray);
-        margin-bottom: 2.5rem;
-        max-width: 90%;
-        opacity: 0;
-        transform: translateY(20px);
-        animation: fadeInUp 0.6s forwards 1s;
-      }
-
-      .btn {
-        display: inline-block;
-        padding: 12px 30px;
-        border-radius: 30px;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 16px;
-        transition: all 0.3s ease;
-        cursor: pointer;
-        border: none;
-        outline: none;
-        position: relative;
-        z-index: 3;
-        opacity: 0;
-        transform: translateY(20px);
-        animation: fadeInUp 0.6s forwards 1.4s;
-      }
-
-      .btn-primary {
-        background: linear-gradient(90deg, var(--cyan), var(--purple));
-        color: var(--dark);
-        box-shadow: 0 4px 20px rgba(196, 0, 255, 0.3);
-      }
-
-      .btn-primary:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(196, 0, 255, 0.4);
-      }
-
-      .hero-image {
-        display: flex;
-        justify-content: flex-end; /* dorong ke kanan */
-        align-items: center;
-        position: relative;
-      }
-
-      .hero-image img {
-        max-width: 100%;
-        width: 400px; /* atur ukuran sesuai selera */
-        animation: float 4s ease-in-out infinite;
-        margin-right: -80px; /* tarik lebih kanan, adjust angka ini */
-        margin-bottom: 0px;
-      }
-
-      /* Animations */
-      @keyframes fadeInUp {
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      @keyframes float {
-        0% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-20px);
-        }
-        100% {
-          transform: translateY(0);
-        }
-      }
-
-      /* Services Section */
-      .services {
-        padding: 100px 0;
-      }
-
-      .section-title {
-        text-align: center;
-        margin-bottom: 60px;
-        font-size: 2.5rem;
-      }
-
-      .section-title span {
-        color: var(--cyan);
-      }
-
-      .services-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 30px;
-      }
-
-      .service-card {
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 15px;
-        padding: 30px;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        position: relative;
-        overflow: hidden;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-      }
-
-      .service-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          45deg,
-          rgba(0, 240, 255, 0.1),
-          rgba(196, 0, 255, 0.1)
-        );
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        z-index: -1;
-      }
-
-      .service-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      }
-
-      .service-card:hover::before {
-        opacity: 1;
-      }
-
-      .service-icon {
-        font-size: 40px;
-        margin-bottom: 20px;
-        background: linear-gradient(90deg, var(--cyan), var(--purple));
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-      }
-
-      .service-title {
-        font-size: 1.5rem;
-        margin-bottom: 15px;
-      }
-
-      .service-desc {
-        color: var(--gray);
-        margin-bottom: 20px;
-      }
-
-      .service-link {
-        color: var(--cyan);
-        text-decoration: none;
-        font-weight: 600;
-        display: inline-flex;
-        align-items: center;
-      }
-
-      .service-link span {
-        margin-left: 5px;
-        transition: transform 0.3s ease;
-      }
-
-      .service-link:hover span {
-        transform: translateX(5px);
-      }
-
-      /* About Section */
-      .about {
-        padding: 100px 0;
-        background: rgba(0, 240, 255, 0.03);
-      }
-
-      .about-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 50px;
-        align-items: center;
-      }
-
-      .about-content h2 {
-        font-size: 2.5rem;
-        margin-bottom: 20px;
-      }
-
-      .about-content h2 span {
-        color: var(--cyan);
-      }
-
-      .about-desc {
-        color: var(--gray);
-        margin-bottom: 30px;
-        font-size: 1.1rem;
-      }
-
-      .about-features {
-        list-style: none;
-      }
-
-      .about-features li {
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-      }
-
-      .about-features li::before {
-        content: '✓';
-        color: var(--cyan);
-        font-weight: bold;
-        margin-right: 10px;
-        background: rgba(0, 240, 255, 0.1);
-        width: 25px;
-        height: 25px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .about-image {
-        position: relative;
-      }
-
-      .about-img {
-        width: 100%;
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      }
-
-      /* Contact Section */
-      .contact {
-        padding: 100px 0;
-      }
-
-      .contact-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 50px;
-      }
-
-      .contact-info {
-        padding-right: 30px;
-      }
-
-      .contact-title {
-        font-size: 2.5rem;
-        margin-bottom: 20px;
-      }
-
-      .contact-title span {
-        color: var(--cyan);
-      }
-
-      .contact-desc {
-        color: var(--gray);
-        margin-bottom: 30px;
-        font-size: 1.1rem;
-      }
-
-      .contact-details {
-        list-style: none;
-      }
-
-      .contact-details li {
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-      }
-
-      .contact-details li i {
-        color: var(--cyan);
-        font-size: 20px;
-        margin-right: 15px;
-        width: 24px;
-      }
-
-      .contact-form {
-        background: rgba(255, 255, 255, 0.05);
-        padding: 30px;
-        border-radius: 15px;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-      }
-
-      .form-group {
-        margin-bottom: 20px;
-      }
-
-      .form-label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 500;
-      }
-
-      .form-input,
-      .form-textarea {
-        width: 100%;
-        padding: 12px 15px;
-        border-radius: 8px;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        color: var(--white);
-        font-family: inherit;
-        transition: border 0.3s ease;
-      }
-
-      .form-input:focus,
-      .form-textarea:focus {
-        outline: none;
-        border-color: var(--cyan);
-      }
-
-      .form-textarea {
-        min-height: 120px;
-        resize: vertical;
-      }
-
-      .submit-btn {
-        background: linear-gradient(90deg, var(--cyan), var(--purple));
-        color: var(--dark);
-        padding: 12px 30px;
-        border: none;
-        border-radius: 30px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: inline-block;
-      }
-
-      .submit-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(196, 0, 255, 0.4);
-      }
-
-      .form-input,
-      .form-textarea,
-      .form-input option {
-        background-color: rgba(
-          255,
-          255,
-          255,
-          0.08
-        ); /* transparan dikit biar nyatu */
-        color: #fff; /* teks putih */
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 8px;
-        padding: 10px;
-        font-size: 1rem;
-      }
-
-      .form-input:focus,
-      .form-textarea:focus {
-        outline: none;
-        border-color: var(--cyan);
-        box-shadow: 0 0 0 2px rgba(0, 240, 255, 0.3);
-      }
-
-      /* option dropdown pas kebuka */
-      .form-input option {
-        background: #1f2432; /* warna gelap biar kebaca */
-        color: #fff;
-      }
-
-      /* Footer */
-      footer {
-        background: rgba(0, 0, 0, 0.2);
-        padding: 50px 0 20px;
-      }
-
-      .footer-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 30px;
-        margin-bottom: 40px;
-      }
-
-      .footer-col h3 {
-        font-size: 1.2rem;
-        margin-bottom: 20px;
-        position: relative;
-        padding-bottom: 10px;
-      }
-
-      .footer-col h3::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 30px;
-        height: 2px;
-        background: linear-gradient(90deg, var(--cyan), var(--purple));
-      }
-
-      .footer-links {
-        list-style: none;
-      }
-
-      .footer-links li {
-        margin-bottom: 10px;
-      }
-
-      .footer-links a {
-        color: var(--gray);
-        text-decoration: none;
-        transition: color 0.3s ease;
-      }
-
-      .footer-links a:hover {
-        color: var(--cyan);
-      }
-
-      .social-links {
-        display: flex;
-        gap: 15px;
-        margin-top: 20px;
-      }
-
-      .social-links a {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.05);
-        color: var(--white);
-        text-decoration: none;
-        transition: all 0.3s ease;
-      }
-
-      .social-links a:hover {
-        background: linear-gradient(90deg, var(--cyan), var(--purple));
-        transform: translateY(-3px);
-      }
-
-      .footer-bottom {
-        text-align: center;
-        padding-top: 20px;
-        border-top: 1px solid rgba(255, 255, 255, 0.05);
-        color: var(--gray);
-        font-size: 0.9rem;
-      }
-
-      /* Stars Background */
-      .stars {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -2;
-        pointer-events: none;
-      }
-
-      .star {
-        position: absolute;
-        background: var(--white);
-        border-radius: 50%;
-        animation: twinkle linear infinite;
-      }
-
-      @keyframes twinkle {
-        0%,
-        100% {
-          opacity: 0.2;
-        }
-        50% {
-          opacity: 1;
-        }
-      }
-
-      /* Responsive Styles */
-      @media (max-width: 992px) {
-        .about-grid,
-        .contact-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .footer-grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
-
-        .hero-title {
-          font-size: 2.8rem;
-        }
-      }
-
-      @media (max-width: 768px) {
-        .nav-links {
-          display: none;
-          position: absolute;
-          top: 80px;
-          left: 0;
-          width: 100%;
-          background: rgba(13, 15, 26, 0.95);
-          flex-direction: column;
-          padding: 20px;
-          backdrop-filter: blur(10px);
-        }
-
-        .nav-links.active {
-          display: flex;
-        }
-
-        .nav-links li {
-          margin: 15px 0;
-        }
-
-        .mobile-menu-btn {
-          display: block;
-        }
-
-        .hero-title {
-          font-size: 2.3rem;
-        }
-
-        .hero-desc {
-          font-size: 1rem;
-        }
-
-        .section-title {
-          font-size: 2rem;
-        }
-      }
-
-      @media (max-width: 576px) {
-        .footer-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .hero-title {
-          font-size: 2rem;
-        }
-      }
-    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/SplitText.min.js"></script>
+
+    <!-- Font Awesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="styles.css" />
   </head>
 
-  <!-- Floating WhatsApp -->
-  <a href="https://wa.me/6282130704794" class="whatsapp-float" target="_blank">
-    <img
-      src="https://cdn-icons-png.flaticon.com/512/733/733585.png"
-      alt="WhatsApp"
-    />
-  </a>
-
-  <body>
+  <body class="no-js">
     <!-- Stars Background -->
     <div class="stars" id="stars"></div>
+
+    <!-- Floating WhatsApp -->
+    <div class="whatsapp-container" id="whatsappContainer">
+      <div class="whatsapp-popup" id="whatsappPopup">
+        <p>Hi 👋 Can I help you?</p>
+      </div>
+      <button
+        class="whatsapp-float"
+        id="whatsappBtn"
+        aria-label="Hubungi kami via WhatsApp"
+      >
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/733/733585.png"
+          alt="WhatsApp"
+        />
+      </button>
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-container" id="chatbotContainer">
+      <div class="chatbot-window" id="chatbotWindow">
+        <div class="chatbot-header">
+          <div class="chatbot-title">
+            <i class="fas fa-robot"></i>
+            <span>NOMTCH Bot</span>
+          </div>
+          <button
+            class="chatbot-close"
+            id="chatbotClose"
+            aria-label="Close chat"
+          >
+            ×
+          </button>
+        </div>
+        <div class="chatbot-messages" id="chatbotMessages"></div>
+        <div class="chatbot-suggestions" id="chatbotSuggestions">
+          <button class="suggestion-btn" data-type="services">
+            📋 Layanan Kami
+          </button>
+          <button class="suggestion-btn" data-type="portfolio">
+            🎨 Portfolio
+          </button>
+          <button class="suggestion-btn" data-type="pricing">💰 Harga</button>
+          <button class="suggestion-btn" data-type="contact">
+            📞 Hubungi Kami
+          </button>
+          <button
+            class="suggestion-btn whatsapp-suggestion"
+            data-type="whatsapp"
+          >
+            💬 Chat via WhatsApp
+          </button>
+        </div>
+        <div
+          class="chatbot-lead-form"
+          id="chatbotLeadForm"
+          style="display: none"
+        >
+          <p class="lead-form-title">Dapatkan Penawaran Harga</p>
+          <input
+            type="text"
+            id="leadName"
+            class="lead-input"
+            placeholder="Nama Anda"
+            required
+          />
+          <input
+            type="email"
+            id="leadEmail"
+            class="lead-input"
+            placeholder="Email Anda"
+            required
+          />
+          <input
+            type="text"
+            id="leadPhone"
+            class="lead-input"
+            placeholder="No. Telepon"
+            required
+          />
+          <select id="leadService" class="lead-input" required>
+            <option value="">Pilih Layanan</option>
+            <option value="web">Web Design</option>
+            <option value="uiux">UI/UX Design</option>
+            <option value="branding">Branding</option>
+            <option value="social">Social Media Design</option>
+            <option value="pdf">PDF Interaktif</option>
+            <option value="cctv">CCTV Installation</option>
+          </select>
+          <textarea
+            id="leadMessage"
+            class="lead-input"
+            placeholder="Deskripsi singkat proyek Anda..."
+            rows="3"
+          ></textarea>
+          <button class="lead-submit-btn" id="leadSubmitBtn">Kirim Info</button>
+          <button class="lead-close-btn" id="leadCloseBtn">Tutup</button>
+        </div>
+        <div class="chatbot-input-area">
+          <input
+            type="text"
+            id="chatbotInput"
+            class="chatbot-input"
+            placeholder="Tulis pesan..."
+            autocomplete="off"
+          />
+          <button
+            class="chatbot-send"
+            id="chatbotSend"
+            aria-label="Send message"
+          >
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+      <button class="chatbot-toggle" id="chatbotToggle" aria-label="Open chat">
+        <i class="fas fa-comments"></i>
+      </button>
+    </div>
 
     <!-- Header -->
     <header id="header">
       <div class="container header-container">
-        <a href="#" class="logo">
+        <a href="#home" class="logo">
           <img src="logo.png" alt="NOMTCH Logo" class="logo-img" />
         </a>
 
-        <ul class="nav-links">
-          <li><a href="#home">Home</a></li>
-          <li><a href="#services">Layanan</a></li>
-          <li><a href="#about">Tentang</a></li>
-          <li><a href="#contact">Kontak</a></li>
-        </ul>
-        <button class="mobile-menu-btn">☰</button>
+        <nav>
+          <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">Tentang</a></li>
+            <li><a href="#services">Layanan</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#clients">Klien</a></li>
+            <li><a href="#process">Proses</a></li>
+            <li><a href="#testimonials">Testimoni</a></li>
+            <li><a href="#contact">Kontak</a></li>
+          </ul>
+        </nav>
+
+        <button class="mobile-menu-btn" aria-label="Menu">☰</button>
       </div>
     </header>
 
     <!-- Hero Section -->
     <section class="hero" id="home">
       <div class="container">
-        <div class="hero-content">
-          <h1 class="hero-title">
-            <span class="word">Innovating</span>
-            <span class="word">Your</span>
-            <span class="word gradient">Digital</span>
-            <span class="word">World</span>
-          </h1>
-          <p class="hero-desc">
-            NOMTCH menyediakan solusi digital kreatif untuk bisnis Anda. Dari
-            desain grafis hingga instalasi CCTV, kami hadir untuk membantu
-            transformasi digital Anda.
-          </p>
-          <a href="#services" class="btn btn-primary">Jelajahi Layanan</a>
-        </div>
+        <div class="hero-grid">
+          <div class="hero-content">
+            <h1 class="hero-title">
+              <span class="word">Crafting</span>
+              <span class="word">Digital</span>
+              <span class="word gradient">Experiences</span>
+              <span class="word">That Convert</span>
+            </h1>
+            <p class="hero-desc">
+              Kami adalah studio desain kreatif yang mengkhususkan diri dalam
+              Web Design & Graphic Design. Menciptakan pengalaman digital yang
+              memukau dan membantu bisnis Anda berkembang di era digital.
+            </p>
+            <div class="hero-buttons">
+              <a href="#portfolio" class="btn btn-primary">Lihat Portfolio</a>
+              <a href="#contact" class="btn btn-secondary">Hubungi Kami</a>
+            </div>
+          </div>
 
-        <!-- Astronaut Image -->
-        <div class="hero-image">
-          <img src="robot.png" alt="Astronaut" />
-        </div>
-      </div>
-    </section>
-
-    <!-- Services Section -->
-    <section class="services" id="services">
-      <div class="container">
-        <h2 class="section-title">Layanan <span>Kami</span></h2>
-        <div class="services-grid">
-          <div class="service-card">
-            <div class="service-icon">📄</div>
-            <h3 class="service-title">PDF Interaktif</h3>
-            <p class="service-desc">
-              Buat PDF interaktif yang menarik untuk presentasi, laporan, atau
-              materi pemasaran Anda.
-            </p>
-            <a href="#contact" class="service-link"
-              >Pesan Sekarang <span>→</span></a
-            >
-          </div>
-          <div class="service-card">
-            <div class="service-icon">🎨</div>
-            <h3 class="service-title">Desain Logo</h3>
-            <p class="service-desc">
-              Logo profesional yang mencerminkan identitas merek Anda dan
-              membuat bisnis Anda menonjol.
-            </p>
-            <a href="#contact" class="service-link"
-              >Pesan Sekarang <span>→</span></a
-            >
-          </div>
-          <div class="service-card">
-            <div class="service-icon">📋</div>
-            <h3 class="service-title">Desain Brochure</h3>
-            <p class="service-desc">
-              Brochure yang elegan dan informatif untuk mempromosikan produk dan
-              layanan Anda.
-            </p>
-            <a href="#contact" class="service-link"
-              >Pesan Sekarang <span>→</span></a
-            >
-          </div>
-          <div class="service-card">
-            <div class="service-icon">📹</div>
-            <h3 class="service-title">Pemasangan CCTV</h3>
-            <p class="service-desc">
-              Jasa pemasangan CCTV profesional untuk keamanan rumah dan bisnis
-              Anda.
-            </p>
-            <a href="#contact" class="service-link"
-              >Pesan Sekarang <span>→</span></a
-            >
-          </div>
-          <div class="service-card">
-            <div class="service-icon">💻</div>
-            <h3 class="service-title">Website Development</h3>
-            <p class="service-desc">
-              Website responsif dan modern untuk meningkatkan kehadiran digital
-              bisnis Anda.
-            </p>
-            <a href="#contact" class="service-link"
-              >Pesan Sekarang <span>→</span></a
-            >
-          </div>
-          <div class="service-card">
-            <div class="service-icon">📱</div>
-            <h3 class="service-title">UI/UX Design</h3>
-            <p class="service-desc">
-              Desain antarmuka pengguna yang intuitif dan menarik untuk aplikasi
-              dan website.
-            </p>
-            <a href="#contact" class="service-link"
-              >Pesan Sekarang <span>→</span></a
-            >
+          <!-- Astronaut Image -->
+          <div class="hero-image">
+            <img src="robot.png" alt="NOMTCH - Digital Experience Designer" />
           </div>
         </div>
       </div>
     </section>
 
     <!-- About Section -->
-    <section class="about" id="about">
+    <section class="about section" id="about">
       <div class="container">
         <div class="about-grid">
-          <div class="about-content">
+          <div class="about-content reveal-left">
             <h2>Mengapa Memilih <span>NOMTCH?</span></h2>
             <p class="about-desc">
               Kami adalah tim kreatif yang berdedikasi untuk memberikan solusi
-              digital terbaik dengan pendekatan inovatif dan profesional.
+              digital terbaik dengan pendekatan inovatif dan profesional. Dengan
+              pengalaman bertahun-tahun di industri kreatif, kami membantu
+              bisnis Anda menonjol di era digital.
             </p>
             <ul class="about-features">
               <li>Desain berkualitas tinggi dan sesuai kebutuhan</li>
@@ -902,36 +232,1004 @@
               <li>Pengerjaan tepat waktu</li>
               <li>Dukungan purna jual yang responsif</li>
             </ul>
-            <a href="#contact" class="btn btn-primary">Hubungi Kami</a>
+
+            <!-- Skills Progress Bars -->
+            <div class="skills-container">
+              <div class="skill-item">
+                <div class="skill-info">
+                  <span class="skill-name">Web Design</span>
+                  <span class="skill-percent">95%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-percent="95%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div class="skill-info">
+                  <span class="skill-name">UI/UX Design</span>
+                  <span class="skill-percent">90%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-percent="90%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div class="skill-info">
+                  <span class="skill-name">Branding</span>
+                  <span class="skill-percent">85%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-percent="85%"></div>
+                </div>
+              </div>
+              <div class="skill-item">
+                <div class="skill-info">
+                  <span class="skill-name">Social Media Design</span>
+                  <span class="skill-percent">92%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-percent="92%"></div>
+                </div>
+              </div>
+            </div>
+
+            <a href="#contact" class="btn btn-primary btn-mt-30"
+              >Hubungi Kami</a
+            >
           </div>
-          <div class="about-image">
+
+          <div class="about-image reveal-right">
             <img
               src="https://images.unsplash.com/photo-1533750349088-cd871a92f312?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
               alt="NOMTCH Team"
               class="about-img"
+              loading="lazy"
             />
           </div>
         </div>
       </div>
     </section>
 
+    <!-- Services Section -->
+    <section class="services section" id="services">
+      <div class="container">
+        <h2 class="section-title reveal">Layanan <span>Kami</span></h2>
+        <div class="services-grid">
+          <div class="service-card reveal">
+            <div class="service-icon"><i class="fas fa-paintbrush"></i></div>
+            <h3 class="service-title">Web Design</h3>
+            <p class="service-desc">
+              Desain website yang responsif, modern, dan user-friendly untuk
+              meningkatkan kehadiran digital bisnis Anda.
+            </p>
+            <a href="#contact" class="service-link"
+              >Pesan Sekarang <span>→</span></a
+            >
+          </div>
+
+          <div class="service-card reveal">
+            <div class="service-icon">
+              <i class="fas fa-wand-magic-sparkles"></i>
+            </div>
+            <h3 class="service-title">UI/UX Design</h3>
+            <p class="service-desc">
+              Desain antarmuka yang intuitif dan menarik untuk aplikasi mobile
+              dan website Anda.
+            </p>
+            <a href="#contact" class="service-link"
+              >Pesan Sekarang <span>→</span></a
+            >
+          </div>
+
+          <div class="service-card reveal">
+            <div class="service-icon"><i class="fas fa-bullseye"></i></div>
+            <h3 class="service-title">Branding</h3>
+            <p class="service-desc">
+              Membangun identitas merek yang kuat dan memorable untuk bisnis
+              Anda.
+            </p>
+            <a href="#contact" class="service-link"
+              >Pesan Sekarang <span>→</span></a
+            >
+          </div>
+
+          <div class="service-card reveal">
+            <div class="service-icon">
+              <i class="fas fa-mobile-screen-button"></i>
+            </div>
+            <h3 class="service-title">Social Media Design</h3>
+            <p class="service-desc">
+              Konten visual yang menarik untuk platform media sosial Anda.
+            </p>
+            <a href="#contact" class="service-link"
+              >Pesan Sekarang <span>→</span></a
+            >
+          </div>
+
+          <div class="service-card reveal">
+            <div class="service-icon"><i class="fas fa-file-pdf"></i></div>
+            <h3 class="service-title">PDF Interaktif</h3>
+            <p class="service-desc">
+              Buat PDF interaktif yang menarik untuk presentasi dan materi
+              pemasaran Anda.
+            </p>
+            <a href="#contact" class="service-link"
+              >Pesan Sekarang <span>→</span></a
+            >
+          </div>
+
+          <div class="service-card reveal">
+            <div class="service-icon"><i class="fas fa-camera"></i></div>
+            <h3 class="service-title">CCTV Installation</h3>
+            <p class="service-desc">
+              Jasa pemasangan CCTV profesional untuk keamanan rumah dan bisnis
+              Anda.
+            </p>
+            <a href="#contact" class="service-link"
+              >Pesan Sekarang <span>→</span></a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio section" id="portfolio">
+      <div class="container">
+        <h2 class="section-title reveal">Portfolio <span>Kami</span></h2>
+
+        <!-- Filter Buttons -->
+        <div class="portfolio-filter reveal">
+          <button class="filter-btn active" data-filter="all">Semua</button>
+          <button class="filter-btn" data-filter="web">Web Design</button>
+          <button class="filter-btn" data-filter="branding">Branding</button>
+          <button class="filter-btn" data-filter="social">Social Media</button>
+        </div>
+
+        <!-- Portfolio Grid -->
+        <div class="portfolio-grid">
+          <!-- Portfolio Item 1 -->
+          <div class="portfolio-item reveal" data-category="web">
+            <img
+              src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=600&q=80"
+              alt="Website Project"
+              loading="lazy"
+            />
+            <div class="portfolio-overlay">
+              <span class="portfolio-category">Web Design</span>
+              <h3 class="portfolio-title">Website Company Profile</h3>
+            </div>
+          </div>
+
+          <!-- Portfolio Item 2 -->
+          <div class="portfolio-item reveal" data-category="branding">
+            <img
+              src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&q=80"
+              alt="Branding Project"
+              loading="lazy"
+            />
+            <div class="portfolio-overlay">
+              <span class="portfolio-category">Branding</span>
+              <h3 class="portfolio-title">Logo & Identity Design</h3>
+            </div>
+          </div>
+
+          <!-- Portfolio Item 3 -->
+          <div class="portfolio-item reveal" data-category="social">
+            <img
+              src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&q=80"
+              alt="Social Media Project"
+              loading="lazy"
+            />
+            <div class="portfolio-overlay">
+              <span class="portfolio-category">Social Media</span>
+              <h3 class="portfolio-title">Instagram Campaign</h3>
+            </div>
+          </div>
+
+          <!-- Portfolio Item 4 -->
+          <div class="portfolio-item reveal" data-category="web">
+            <img
+              src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=600&q=80"
+              alt="Website Project"
+              loading="lazy"
+            />
+            <div class="portfolio-overlay">
+              <span class="portfolio-category">Web Design</span>
+              <h3 class="portfolio-title">E-Commerce Website</h3>
+            </div>
+          </div>
+
+          <!-- Portfolio Item 5 -->
+          <div class="portfolio-item reveal" data-category="branding">
+            <img
+              src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&q=80"
+              alt="Branding Project"
+              loading="lazy"
+            />
+            <div class="portfolio-overlay">
+              <span class="portfolio-category">Branding</span>
+              <h3 class="portfolio-title">Brand Identity Package</h3>
+            </div>
+          </div>
+
+          <!-- Portfolio Item 6 -->
+          <div class="portfolio-item reveal" data-category="social">
+            <img
+              src="https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=600&q=80"
+              alt="Social Media Project"
+              loading="lazy"
+            />
+            <div class="portfolio-overlay">
+              <span class="portfolio-category">Social Media</span>
+              <h3 class="portfolio-title">Facebook Ads Design</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Portfolio Modal -->
+    <div class="portfolio-modal" id="portfolioModal">
+      <div class="modal-content">
+        <button class="modal-close" aria-label="Tutup">&times;</button>
+        <img id="modalImg" src="" alt="Portfolio Detail" />
+        <div class="modal-info">
+          <h3 id="modalTitle">Project Title</h3>
+          <p id="modalDesc">Category</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Clients Section -->
+    <section class="clients section" id="clients">
+      <div class="container">
+        <h2 class="section-title reveal">Klien <span>Kami</span></h2>
+        <p class="section-subtitle subtitle-center reveal">
+          Kami telah membantu puluhan bisnis membangun identitas visual, website
+          modern, hingga solusi digital yang scalable. Kepercayaan mereka adalah
+          bukti konsistensi dan standar kerja profesional yang kami jaga.
+        </p>
+
+        <div class="clients-grid">
+          <!-- Client Logo 1 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/aa branded.png"
+                alt="AA Branded"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 2 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/Arunika Semesta - Logo FIX-01.png"
+                alt="Arunika Semesta"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 3 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/asmana.png"
+                alt="Asmana"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 4 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/babes.png"
+                alt="Babes"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 5 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/BATEKHAN-01.png"
+                alt="Batekhan"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 6 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/bolgoat.png"
+                alt="Bolgoat"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 7 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img src="Client logo/BTM.png" alt="BTM" class="client-logo" />
+            </div>
+          </div>
+
+          <!-- Client Logo 8 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/fentea.png"
+                alt="Fentea"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 9 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/garage53.png"
+                alt="Garage53"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 10 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img src="Client logo/gmc.png" alt="GMC" class="client-logo" />
+            </div>
+          </div>
+
+          <!-- Client Logo 11 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img src="Client logo/hfc.png" alt="HFC" class="client-logo" />
+            </div>
+          </div>
+
+          <!-- Client Logo 12 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img src="Client logo/ibr.png" alt="IBR" class="client-logo" />
+            </div>
+          </div>
+
+          <!-- Client Logo 13 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/ibrcoffee.png"
+                alt="IBR Coffee"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 14 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/ibuhanif.png"
+                alt="Ibu Hanif"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 15 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/indoputera.png"
+                alt="Indoputera"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 16 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/kapal.png"
+                alt="Kapal"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 17 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/kompeska.png"
+                alt="Kompeska"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 18 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/lamitaco.png"
+                alt="Lamitaco"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 19 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/LOGO-01.png"
+                alt="Logo Client"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 20 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/mabesnft.png"
+                alt="Mabes NFT"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 21 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/Main Logo-01.png"
+                alt="Main Logo"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 22 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/manyel.png"
+                alt="Manyel"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 23 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/PLI Logo-01.png"
+                alt="PLI"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 24 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/putera tunggal.png"
+                alt="Putera Tunggal"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 25 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/Rubas Logo-01.png"
+                alt="Rubas"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 26 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/scooternest.png"
+                alt="Scooternest"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 27 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/shapa.png"
+                alt="Shapa"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 28 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/smartradio.png"
+                alt="Smart Radio"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 29 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/tgholiday.png"
+                alt="TG Holiday"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 30 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/thebrother.png"
+                alt="The Brother"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 31 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/thermy.png"
+                alt="Thermy"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 32 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/topchicken land.png"
+                alt="Top Chicken Land"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 33 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/WTA48-04.png"
+                alt="WTA 48"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 34 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/Yayasan Watulaga Green-03.png"
+                alt="Yayasan Watulaga Green"
+                class="client-logo"
+              />
+            </div>
+          </div>
+
+          <!-- Client Logo 35 -->
+          <div class="client-item reveal">
+            <div class="client-logo-wrapper">
+              <img
+                src="Client logo/ziggi.png"
+                alt="Ziggi"
+                class="client-logo"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process section" id="process">
+      <div class="container">
+        <h2 class="section-title reveal">Proses <span>Kerja</span></h2>
+        <p class="section-subtitle subtitle-center-40 reveal">
+          Cara kami bekerja untuk memberikan hasil terbaik bagi Anda
+        </p>
+
+        <div class="process-container">
+          <div class="process-scroll">
+            <!-- Step 1 -->
+            <div class="process-step reveal">
+              <span class="process-number">01</span>
+              <div class="process-icon"><i class="fas fa-comments"></i></div>
+              <h3 class="process-title">Konsultasi</h3>
+              <p class="process-desc">
+                Kami mendengarkan kebutuhan dan tujuan bisnis Anda untuk
+                memahami visi yang ingin dicapai.
+              </p>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="process-step reveal">
+              <span class="process-number">02</span>
+              <div class="process-icon"><i class="fas fa-list-check"></i></div>
+              <h3 class="process-title">Perencanaan</h3>
+              <p class="process-desc">
+                Membuat strategi dan timeline yang detail untuk memastikan
+                proyek berjalan sesuai rencana.
+              </p>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="process-step reveal">
+              <span class="process-number">03</span>
+              <div class="process-icon"><i class="fas fa-palette"></i></div>
+              <h3 class="process-title">Desain</h3>
+              <p class="process-desc">
+                Tim desain kami menciptakan konsep visual yang kreatif dan
+                sesuai dengan identitas merek Anda.
+              </p>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="process-step reveal">
+              <span class="process-number">04</span>
+              <div class="process-icon"><i class="fas fa-bolt"></i></div>
+              <h3 class="process-title">Implementasi</h3>
+              <p class="process-desc">
+                Mengembangkan dan mengimplementasikan desain menjadi produk
+                final yang siap digunakan.
+              </p>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="process-step reveal">
+              <span class="process-number">05</span>
+              <div class="process-icon"><i class="fas fa-rocket"></i></div>
+              <h3 class="process-title">Peluncuran</h3>
+              <p class="process-desc">
+                Melaunch produk Anda dan memberikan dukungan teknis untuk
+                memastikan semuanya berjalan sempurna.
+              </p>
+            </div>
+          </div>
+
+          <div class="process-scrollbar">
+            <div class="process-scrollbar-thumb"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials section" id="testimonials">
+      <div class="container">
+        <h2 class="section-title reveal">Apa Kata <span>Klien</span></h2>
+
+        <div class="testimonials-slider reveal">
+          <div class="testimonials-track">
+            <!-- Testimonial 1 -->
+            <div class="testimonial-card">
+              <div class="testimonial-content">
+                <span class="testimonial-quote">"</span>
+                <p class="testimonial-text">
+                  "NOMTCH memberikan hasil desain yang luar biasa untuk branding
+                  TG Holiday! Tim mereka sangat profesional dan memahami visi
+                  kami. Hasilnya melebihi ekspektasi kami. Sangat
+                  merekomendasikan untuk bisnis apapun!"
+                </p>
+                <div class="testimonial-author">
+                  <img
+                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80"
+                    alt="Tarisa"
+                    class="testimonial-avatar"
+                    loading="lazy"
+                  />
+                  <div class="testimonial-info">
+                    <h4>Tarisa</h4>
+                    <p>Owner, TG Holiday Tour</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Testimonial 2 -->
+            <div class="testimonial-card">
+              <div class="testimonial-content">
+                <span class="testimonial-quote">"</span>
+                <p class="testimonial-text">
+                  "Desain dari NOMTCH untuk logo AA Branded sangat sempurna!
+                  Kreativitas dan perhatian terhadap detail mereka benar-benar
+                  membuat brand kami terlihat profesional. Terima kasih atas
+                  hasil kerjanya!"
+                </p>
+                <div class="testimonial-author">
+                  <img
+                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80"
+                    alt="Sandy"
+                    class="testimonial-avatar"
+                    loading="lazy"
+                  />
+                  <div class="testimonial-info">
+                    <h4>Sandy</h4>
+                    <p>Owner, AA Branded</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Testimonial 3 -->
+            <div class="testimonial-card">
+              <div class="testimonial-content">
+                <span class="testimonial-quote">"</span>
+                <p class="testimonial-text">
+                  "Tim NOMTCH sangat responsif dan kreatif dalam mengerjakan
+                  branding Arunika Semesta. Hasil desain mereka mencerminkan
+                  nilai-nilai perusahaan kami dengan sempurna. Ini adalah mitra
+                  terbaik untuk kebutuhan desain!"
+                </p>
+                <div class="testimonial-author">
+                  <img
+                    src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80"
+                    alt="Ivan"
+                    class="testimonial-avatar"
+                    loading="lazy"
+                  />
+                  <div class="testimonial-info">
+                    <h4>Ivan</h4>
+                    <p>Founder, Arunika Semesta</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Testimonial 4 -->
+            <div class="testimonial-card">
+              <div class="testimonial-content">
+                <span class="testimonial-quote">"</span>
+                <p class="testimonial-text">
+                  "Pengalaman bekerja dengan NOMTCH untuk Piaggio Loberty
+                  Indonesia sangat memuaskan. Desain website dan branding yang
+                  mereka hasilkan sangat modern dan profesional. Kami sangat
+                  puas dengan hasilnya!"
+                </p>
+                <div class="testimonial-author">
+                  <img
+                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80"
+                    alt="Irfan"
+                    class="testimonial-avatar"
+                    loading="lazy"
+                  />
+                  <div class="testimonial-info">
+                    <h4>Irfan</h4>
+                    <p>Team Leader, Piaggio Liberty Indonesia</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Testimonial 5 -->
+            <div class="testimonial-card">
+              <div class="testimonial-content">
+                <span class="testimonial-quote">"</span>
+                <p class="testimonial-text">
+                  "NOMTCH mengerjakan desain branding Garage53 dengan luar biasa
+                  profesional. Hasil kerjanya sangat cocok dengan identitas
+                  bisnis kami. Saya merekomendasikan NOMTCH kepada siapa saja
+                  yang mencari desainer berkualitas tinggi!"
+                </p>
+                <div class="testimonial-author">
+                  <img
+                    src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80"
+                    alt="Ade Abdullah"
+                    class="testimonial-avatar"
+                    loading="lazy"
+                  />
+                  <div class="testimonial-info">
+                    <h4>Ade Abdullah</h4>
+                    <p>Owner, Garage53</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Testimonial 6 -->
+            <div class="testimonial-card">
+              <div class="testimonial-content">
+                <span class="testimonial-quote">"</span>
+                <p class="testimonial-text">
+                  "Layanan NOMTCH untuk branding Bolgoat sangat memuaskan! Tim
+                  mereka sangat memahami industri gaming dan menciptakan
+                  identitas visual yang cocok sekali. Kami sangat terkesan
+                  dengan hasil akhirnya!"
+                </p>
+                <div class="testimonial-author">
+                  <img
+                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80"
+                    alt="Rizal"
+                    class="testimonial-avatar"
+                    loading="lazy"
+                  />
+                  <div class="testimonial-info">
+                    <h4>Rizal</h4>
+                    <p>Owner, Bolgoat Games</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Testimonial 7 -->
+            <div class="testimonial-card">
+              <div class="testimonial-content">
+                <span class="testimonial-quote">"</span>
+                <p class="testimonial-text">
+                  "NOMTCH mengerjakan desain untuk Fentea dengan penuh dedikasi
+                  dan kreativitas. Hasilnya sangat profesional dan sesuai dengan
+                  visi kami. Mereka adalah tim yang sangat responsif dan mudah
+                  dikomunikasikan!"
+                </p>
+                <div class="testimonial-author">
+                  <img
+                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80"
+                    alt="Venty"
+                    class="testimonial-avatar"
+                    loading="lazy"
+                  />
+                  <div class="testimonial-info">
+                    <h4>Venty</h4>
+                    <p>Founder, Fentea</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Testimonial 8 -->
+            <div class="testimonial-card">
+              <div class="testimonial-content">
+                <span class="testimonial-quote">"</span>
+                <p class="testimonial-text">
+                  "Hasil desain NOMTCH untuk BABES brand kami sangat memukau!
+                  Tim mereka sangat profesional dan memahami target market kami
+                  dengan sempurna. Branding yang mereka buat meningkatkan citra
+                  brand kami secara signifikan!"
+                </p>
+                <div class="testimonial-author">
+                  <img
+                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80"
+                    alt="BABES Team"
+                    class="testimonial-avatar"
+                    loading="lazy"
+                  />
+                  <div class="testimonial-info">
+                    <h4>BABES Team</h4>
+                    <p>Owner, BABES Lash Studio</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Testimonial 9 -->
+            <div class="testimonial-card">
+              <div class="testimonial-content">
+                <span class="testimonial-quote">"</span>
+                <p class="testimonial-text">
+                  "NOMTCH berhasil menciptakan desain yang perfect untuk WTA48!
+                  Mereka sangat memahami kebutuhan kami dan deliver hasil yang
+                  melebihi ekspektasi. Sangat merekomendasikan untuk semua
+                  kebutuhan desain grafis dan branding!"
+                </p>
+                <div class="testimonial-author">
+                  <img
+                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80"
+                    alt="Sandi"
+                    class="testimonial-avatar"
+                    loading="lazy"
+                  />
+                  <div class="testimonial-info">
+                    <h4>Sandi</h4>
+                    <p>Owner, WTA48</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Navigation -->
+          <div class="testimonials-nav">
+            <button
+              class="testimonial-btn testimonial-prev"
+              aria-label="Sebelumnya"
+            >
+              ←
+            </button>
+            <button
+              class="testimonial-btn testimonial-next"
+              aria-label="Selanjutnya"
+            >
+              →
+            </button>
+          </div>
+
+          <!-- Dots -->
+          <div class="testimonial-dots">
+            <span class="dot active" data-slide="0"></span>
+            <span class="dot" data-slide="1"></span>
+            <span class="dot" data-slide="2"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Contact Section -->
-    <section class="contact" id="contact">
+    <section class="contact section" id="contact">
       <div class="container">
         <div class="contact-grid">
-          <div class="contact-info">
+          <div class="contact-info reveal-left">
             <h2 class="contact-title">Hubungi <span>Kami</span></h2>
             <p class="contact-desc">
               Siap untuk mengubah ide Anda menjadi kenyataan? Hubungi kami
               sekarang dan dapatkan penawaran terbaik untuk proyek Anda.
             </p>
             <ul class="contact-details">
-              <li><i>📧</i> nomstudiodesign@gmail.com</li>
-              <li><i>📱</i> +62 821 3070 4794</li>
-              <li><i>📍</i>Cipanas, Cianjur, West Java - Indonesia </li>
+              <li><i class="fas fa-envelope"></i> nomstudiodesign@gmail.com</li>
+              <li><i class="fas fa-phone"></i> +62 821 3070 4794</li>
+              <li><i class="fas fa-map-marker-alt"></i> Jakarta, Indonesia</li>
             </ul>
+
+            <!-- Social Media Links -->
+            <div class="contact-social">
+              <a href="#" aria-label="Instagram"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="#" aria-label="Facebook"
+                ><i class="fab fa-facebook"></i
+              ></a>
+              <a href="#" aria-label="LinkedIn"
+                ><i class="fab fa-linkedin"></i
+              ></a>
+              <a href="#" aria-label="Twitter"
+                ><i class="fab fa-twitter"></i
+              ></a>
+            </div>
           </div>
-          <div class="contact-form">
+
+          <div class="contact-form reveal-right">
             <form id="contactForm">
               <div class="form-group">
                 <label for="name" class="form-label">Nama Lengkap</label>
@@ -940,6 +1238,7 @@
                   id="name"
                   name="name"
                   class="form-input"
+                  placeholder="Masukkan nama Anda"
                   required
                 />
               </div>
@@ -951,6 +1250,7 @@
                   id="email"
                   name="email"
                   class="form-input"
+                  placeholder="email@anda.com"
                   required
                 />
               </div>
@@ -961,12 +1261,12 @@
                 >
                 <select id="service" name="service" class="form-input" required>
                   <option value="">Pilih Layanan</option>
-                  <option value="pdf">PDF Interaktif</option>
-                  <option value="logo">Desain Logo</option>
-                  <option value="brochure">Desain Brochure</option>
-                  <option value="cctv">Pemasangan CCTV</option>
-                  <option value="website">Website Development</option>
+                  <option value="web">Web Design</option>
                   <option value="uiux">UI/UX Design</option>
+                  <option value="branding">Branding</option>
+                  <option value="social">Social Media Design</option>
+                  <option value="pdf">PDF Interaktif</option>
+                  <option value="cctv">CCTV Installation</option>
                 </select>
               </div>
 
@@ -976,6 +1276,7 @@
                   id="message"
                   name="message"
                   class="form-textarea"
+                  placeholder="Ceritakan proyek Anda..."
                   required
                 ></textarea>
               </div>
@@ -995,269 +1296,68 @@
             <h3>NOMTCH</h3>
             <p>
               Menyediakan solusi digital kreatif untuk membantu bisnis Anda
-              tumbuh di era digital.
+              tumbuh dan berkembang di era digital.
             </p>
             <div class="social-links">
-              <a href="#"><i>📱</i></a>
-              <a href="#"><i>💬</i></a>
-              <a href="#"><i>📸</i></a>
-              <a href="#"><i>🔗</i></a>
+              <a href="#" aria-label="Instagram"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="#" aria-label="Facebook"
+                ><i class="fab fa-facebook"></i
+              ></a>
+              <a href="#" aria-label="LinkedIn"
+                ><i class="fab fa-linkedin"></i
+              ></a>
+              <a href="#" aria-label="Twitter"
+                ><i class="fab fa-twitter"></i
+              ></a>
             </div>
           </div>
+
           <div class="footer-col">
             <h3>Layanan</h3>
             <ul class="footer-links">
-              <li><a href="#">PDF Interaktif</a></li>
-              <li><a href="#">Desain Logo</a></li>
-              <li><a href="#">Desain Brochure</a></li>
-              <li><a href="#">Pemasangan CCTV</a></li>
+              <li><a href="#services">Web Design</a></li>
+              <li><a href="#services">UI/UX Design</a></li>
+              <li><a href="#services">Branding</a></li>
+              <li><a href="#services">Social Media</a></li>
             </ul>
           </div>
+
           <div class="footer-col">
             <h3>Perusahaan</h3>
             <ul class="footer-links">
-              <li><a href="#">Tentang Kami</a></li>
-              <li><a href="#">Portfolio</a></li>
-              <li><a href="#">Blog</a></li>
-              <li><a href="#">Karir</a></li>
+              <li><a href="#about">Tentang Kami</a></li>
+              <li><a href="#portfolio">Portfolio</a></li>
+              <li><a href="#testimonials">Testimoni</a></li>
+              <li><a href="#contact">Karir</a></li>
             </ul>
           </div>
+
           <div class="footer-col">
             <h3>Dukungan</h3>
             <ul class="footer-links">
-              <li><a href="#">FAQ</a></li>
-              <li><a href="#">Syarat & Ketentuan</a></li>
-              <li><a href="#">Kebijakan Privasi</a></li>
-              <li><a href="#">Bantuan</a></li>
+              <li><a href="#contact">FAQ</a></li>
+              <li><a href="#contact">Syarat & Ketentuan</a></li>
+              <li><a href="#contact">Kebijakan Privasi</a></li>
+              <li><a href="#contact">Bantuan</a></li>
             </ul>
           </div>
         </div>
+
         <div class="footer-bottom">
           <p>
-            &copy; 2025 NOMTCH - Innovating Your Digital World. All rights
-            reserved.
+            &copy; 2025 <span>NOMTCH</span> - Innovating Your Digital World. All
+            rights reserved.
           </p>
         </div>
       </div>
     </footer>
 
+    <!-- EmailJS -->
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
-    <script>
-      // Create stars background
-      function createStars() {
-        const stars = document.getElementById('stars')
-        const starsCount = 150
-
-        for (let i = 0; i < starsCount; i++) {
-          const star = document.createElement('div')
-          star.classList.add('star')
-
-          const size = Math.random() * 3
-          star.style.width = `${size}px`
-          star.style.height = `${size}px`
-
-          star.style.left = `${Math.random() * 100}%`
-          star.style.top = `${Math.random() * 100}%`
-
-          star.style.animationDuration = `${Math.random() * 3 + 2}s`
-          star.style.animationDelay = `${Math.random() * 2}s`
-
-          stars.appendChild(star)
-        }
-      }
-
-      // Header scroll effect
-      function handleHeaderScroll() {
-        const header = document.getElementById('header')
-        if (window.scrollY > 50) {
-          header.classList.add('scrolled')
-        } else {
-          header.classList.remove('scrolled')
-        }
-      }
-
-      // GSAP Animations
-      function initAnimations() {
-        // Register ScrollTrigger plugin
-        gsap.registerPlugin(ScrollTrigger)
-
-        // Hero section animation
-        gsap.from('.hero-title', {
-          duration: 1,
-          y: 50,
-          opacity: 0,
-          ease: 'power3.out'
-        })
-
-        gsap.from('.hero-desc', {
-          duration: 1,
-          y: 30,
-          opacity: 0,
-          delay: 0.3,
-          ease: 'power3.out'
-        })
-
-        gsap.from('.btn-primary', {
-          duration: 1,
-          y: 30,
-          opacity: 0,
-          delay: 0.6,
-          ease: 'power3.out'
-        })
-
-        // Services animation
-        gsap.from('.service-card', {
-          scrollTrigger: {
-            trigger: '.services',
-            start: 'top 80%'
-          },
-          duration: 0.8,
-          y: 50,
-          opacity: 0,
-          stagger: 0.2,
-          ease: 'power3.out'
-        })
-
-        // About section animation
-        gsap.from('.about-content', {
-          scrollTrigger: {
-            trigger: '.about',
-            start: 'top 80%'
-          },
-          duration: 1,
-          x: -50,
-          opacity: 0,
-          ease: 'power3.out'
-        })
-
-        gsap.from('.about-img', {
-          scrollTrigger: {
-            trigger: '.about',
-            start: 'top 80%'
-          },
-          duration: 1,
-          x: 50,
-          opacity: 0,
-          ease: 'power3.out'
-        })
-
-        // Contact section animation
-        gsap.from('.contact-info', {
-          scrollTrigger: {
-            trigger: '.contact',
-            start: 'top 80%'
-          },
-          duration: 1,
-          x: -50,
-          opacity: 0,
-          ease: 'power3.out'
-        })
-
-        gsap.from('.contact-form', {
-          scrollTrigger: {
-            trigger: '.contact',
-            start: 'top 80%'
-          },
-          duration: 1,
-          x: 50,
-          opacity: 0,
-          ease: 'power3.out'
-        })
-      }
-
-      // EMAILJS
-
-      ;(function () {
-        emailjs.init('jaUDXIFQC9A7j6F-B') // public key lu
-      })()
-
-      document
-        .getElementById('contactForm')
-        .addEventListener('submit', function (e) {
-          e.preventDefault()
-
-          const form = e.target
-          const templateParams = {
-            name: form.name.value,
-            email: form.email.value,
-            service: form.service.value,
-            message: form.message.value
-          }
-
-          // 1. Kirim pesan utama (masuk ke inbox lu / admin)
-          emailjs
-            .send('service_rhet2fp', 'template_3m1vei7', templateParams)
-            .then(
-              function () {
-                console.log('Pesan utama terkirim ke admin ✅')
-
-                // 2. Kirim auto-reply ke user
-                emailjs
-                  .send('service_rhet2fp', 'template_etfncgn', templateParams)
-                  .then(
-                    function () {
-                      alert('Pesan berhasil dikirim! Silakan cek email kamu 🚀')
-                      form.reset()
-                    },
-                    function (error) {
-                      console.error('Gagal kirim auto-reply:', error)
-                    }
-                  )
-              },
-              function (error) {
-                alert('Gagal kirim pesan: ' + JSON.stringify(error))
-              }
-            )
-        })
-
-      // Mobile menu toggle
-      function initMobileMenu() {
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn')
-        const navLinks = document.querySelector('.nav-links')
-
-        mobileMenuBtn.addEventListener('click', function () {
-          navLinks.classList.toggle('active')
-        })
-
-        // Close menu when clicking on a link
-        const navItems = document.querySelectorAll('.nav-links a')
-        navItems.forEach((item) => {
-          item.addEventListener('click', function () {
-            navLinks.classList.remove('active')
-          })
-        })
-      }
-
-      // Smooth scrolling for navigation links
-      function initSmoothScrolling() {
-        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-          anchor.addEventListener('click', function (e) {
-            e.preventDefault()
-
-            const targetId = this.getAttribute('href')
-            if (targetId === '#') return
-
-            const targetElement = document.querySelector(targetId)
-            if (targetElement) {
-              window.scrollTo({
-                top: targetElement.offsetTop - 80,
-                behavior: 'smooth'
-              })
-            }
-          })
-        })
-      }
-
-      // Initialize everything when DOM is loaded
-      document.addEventListener('DOMContentLoaded', function () {
-        createStars()
-        window.addEventListener('scroll', handleHeaderScroll)
-        initAnimations()
-        handleFormSubmit()
-        initMobileMenu()
-        initSmoothScrolling()
-      })
-    </script>
+    <!-- External JavaScript -->
+    <script src="script.js"></script>
   </body>
 </html>
